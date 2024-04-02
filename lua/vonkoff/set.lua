@@ -1,32 +1,57 @@
-vim.opt.guicursor = ""
+local opt = vim.opt -- for conciseness
+opt.guicursor = ""
 
-vim.opt.nu = true
-vim.opt.relativenumber = true
+-- line numbers
+opt.number = true
+opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- tabs & indentations
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
+opt.autoindent = true
 
-vim.opt.smartindent = true
+-- line wrapping
+opt.wrap = false
 
-vim.opt.wrap = false
+-- search settings
+opt.ignorecase = true
+opt.smartcase = true
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
+-- cursor line
+opt.cursorline = true
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+-- appearance
+opt.termguicolors = true
+opt.background = "dark"
+opt.signcolumn = "yes"
 
-vim.opt.termguicolors = true
+-- backspace
+opt.backspace = "indent,eol,start"
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+-- split windows
+opt.splitright = true -- split vertical window to the right
+opt.splitbelow = true -- split horizontal window to the bottom
 
-vim.opt.updatetime = 50
+-- consider string-string as whole word
+opt.iskeyword:append("-")
 
-vim.opt.colorcolumn = "80"
+opt.smartindent = true
 
+opt.swapfile = false
+opt.backup = false
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undofile = true
+
+opt.hlsearch = false
+opt.incsearch = true
+
+
+opt.scrolloff = 8
+opt.signcolumn = "yes"
+opt.isfname:append("@-@")
+
+opt.updatetime = 50
+
+opt.colorcolumn = "80"

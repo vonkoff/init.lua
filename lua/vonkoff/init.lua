@@ -1,6 +1,6 @@
 require("vonkoff.set")
 require("vonkoff.remap")
-
+require("vonkoff.plugins")
 
 local augroup = vim.api.nvim_create_augroup
 local VonkoffGroup = augroup('Vonkoff', {})

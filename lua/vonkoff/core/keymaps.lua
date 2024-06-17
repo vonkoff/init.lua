@@ -9,11 +9,54 @@ local keymap = vim.keymap -- for conciseness
 --
 keymap.set("n", "K", vim.lsp.buf.hover)
 
+-- move highlighted selection up/down
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
+-- mouse cursor stays in place when next line is joined
+vim.keymap.set("n", "J", "mzJ`z")
+
+-- mouse cursor stays in place when page down/up
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- mouse cursor stays in place when searching
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+-- greatest remap ever. Allows [leader] paste to keep same buffer
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- next greatest remap ever : asbjornHaland. [leader] yank to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+-- [leader] delete in normal/visual mode without copying
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
+
+-- map "Q" to do nothing. Can be pressed accidently
+vim.keymap.set("n", "Q", "<nop>")
+
+-- Hover over word and start search and replace in buffer
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Make a file executable
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- TODO: Not sure if this will mess something at this moment. Checkout Primagean
+-- -- Navigate to the next/prev item in the quickfix list and center the cursor
+-- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+-- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+--
+-- -- Navigate to the next/prev item in the location list and center the cursor
+-- vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
+-- vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>") -- increment

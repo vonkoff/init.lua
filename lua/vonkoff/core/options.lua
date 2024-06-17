@@ -16,6 +16,7 @@ opt.wrap = false -- disable line wrapping
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+opt.incsearch = true --  it will move the highlight as you add characters to the search string
 
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
@@ -31,8 +32,9 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+-- Keymaps allow system clipboard and vim clipboard
+-- -- clipboard
+-- opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 -- split windows
 opt.splitright = true -- split vertical window to the right

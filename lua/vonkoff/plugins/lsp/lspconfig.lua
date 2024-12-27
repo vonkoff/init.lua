@@ -32,6 +32,9 @@ return {
 				opts.desc = "Go to declaration"
 				keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
+				opts.desc = "Go back to previous location"
+				keymap.set("n", "gr", "<C-o>", opts) -- jump back
+
 				opts.desc = "Show LSP definitions"
 				keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 
@@ -92,9 +95,9 @@ return {
 					-- on_attach =
 				})
 			end,
-			["tsserver"] = function()
+			["ts_ls"] = function()
 				-- configure typescript server
-				lspconfig["tsserver"].setup({
+				lspconfig["ts_ls"].setup({
 					capabilities = capabilities,
 					-- on_attach =
 				})

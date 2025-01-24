@@ -25,7 +25,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- mouse cursor stays in place when searching
 vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+-- TODO: Fix below caused errors for whatver reason
+-- vim.keymap.se("n", "N", "Nzzzv")
 
 -- greatest remap ever. Allows [leader] paste to keep same buffer
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -46,8 +47,9 @@ vim.keymap.set("n", "Q", "<nop>")
 -- Hover over word and start search and replace in buffer
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- TODO: Fix below caused errors for whatver reason
 -- Make a file executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+-- vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { silent = true })
 
 -- TODO: Not sure if this will mess something at this moment. Checkout Primagean
 -- -- Navigate to the next/prev item in the quickfix list and center the cursor

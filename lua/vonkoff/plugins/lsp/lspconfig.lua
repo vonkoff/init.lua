@@ -67,6 +67,10 @@ return {
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+				-- mix format easily Elixir
+				opts.desc = "mix format easily"
+				vim.keymap.set("n", "<leader>ef", "<cmd>!mix format<CR>", { silent = true })
 			end,
 		})
 
@@ -169,6 +173,24 @@ return {
 							},
 						},
 					},
+				})
+			end,
+			["elixirls"] = function()
+				-- configure elixirls language server (manually installed)
+				lspconfig["elixirls"].setup({
+					capabilities = capabilities,
+					-- cmd = { "/Users/vonkoff/.elixir-ls/release/language_server.sh" },
+					cmd = { "/Users/vonkoff/.elixir-ls/release/language_server.sh", "--log-level", "debug" },
+					root_dir = require("lspconfig.util").root_pattern("mix.exs"),
+					settings = {
+						elixirLS = {
+							dialyzerEnabled = false, -- Disable if not set up
+							fetchDeps = false, -- Avoid fetching deps automatically
+						},
+					},
+					on_attach = function(client, bufnr)
+						print("ElixirLS attached to buffer " .. bufnr)
+					end,
 				})
 			end,
 		})

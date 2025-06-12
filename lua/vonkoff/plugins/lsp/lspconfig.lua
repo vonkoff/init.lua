@@ -18,6 +18,23 @@ return {
 
 		local keymap = vim.keymap -- for conciseness
 
+		-- INFO: ADDED FOR ELIXIR. Never worked might try again to see underlines
+		--
+		-- -- Configure diagnostic display with underlines
+		-- vim.diagnostic.config({
+		-- 	virtual_text = true, -- Show error messages inline
+		-- 	signs = true, -- Keep gutter signs (e.g., )
+		-- 	underline = true, -- Enable underlines for diagnostics
+		-- 	update_in_insert = false, -- Don’t update while typing
+		-- 	severity_sort = true, -- Prioritize errors over warnings
+		-- })
+		--
+		-- -- Define highlight groups for underlines
+		-- vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "red" }) -- Red undercurl for errors
+		-- vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "yellow" }) -- Yellow for warnings
+		-- vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = "blue" }) -- Blue for info
+		-- vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true, sp = "cyan" }) -- Cyan for hints
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
@@ -103,7 +120,23 @@ return {
 				-- configure typescript server
 				lspconfig["ts_ls"].setup({
 					capabilities = capabilities,
-					-- on_attach =
+					settings = {
+						-- This explicitly disables the server's built-in ESLint plugin
+						tsserver = {
+							plugins = {
+								["@typescript-eslint/eslint-plugin"] = {
+									useESLint = false,
+								},
+							},
+						},
+						-- This ensures TS validation is still on for both filetypes
+						typescript = {
+							validate = { enable = true },
+						},
+						javascript = {
+							validate = { enable = true },
+						},
+					},
 				})
 			end,
 			["cssls"] = function()

@@ -1,4 +1,5 @@
 local opt = vim.opt -- for conciseness
+local options = vim.o
 
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
@@ -21,7 +22,14 @@ opt.incsearch = true --  it will move the highlight as you add characters to the
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
 
+-- Preview substitutions live, as you type!
+options.inccommand = "split"
+
 -- appearance
+
+-- Sets how neovim will display certain whitespace characters in the editor.
+options.list = true
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- turn on termguicolors for nightfly colorscheme to work
 -- (have to use iterm2 or any other true color terminal)

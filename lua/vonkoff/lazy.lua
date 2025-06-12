@@ -12,8 +12,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    {import = "vonkoff.plugins.lsp"},
     {import = "vonkoff.plugins"},
-    {import = "vonkoff.plugins.lsp"}
 },
 {
   install = {

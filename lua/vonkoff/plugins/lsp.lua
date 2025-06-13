@@ -3,7 +3,6 @@
 return {
 	-- Main LSP Configuration
 	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		-- Mason handles LSP server installation
 		{
@@ -56,7 +55,7 @@ return {
 
 		-- Add other LSP-related plugins here
 		{ "j-hui/fidget.nvim", opts = {} }, -- Nice UI for LSP progress
-		{ "folke/neodev.nvim", opts = {} }, -- Helps with nvim-specific lua development
+		-- { "folke/neodev.nvim", opts = {} }, -- Helps with nvim-specific lua development
 	},
 	config = function()
 		-- This is your main lspconfig setup, it will run AFTER all dependencies are loaded.
@@ -108,74 +107,54 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		local servers = {
-			html = {},
-			cssls = {},
-			tailwindcss = {},
-			svelte = {
-				on_attach = function(client, bufnr)
-					vim.api.nvim_create_autocmd("BufWritePost", {
-						pattern = { "*.js", "*.ts" },
-						callback = function(ctx)
-							client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-						end,
-					})
-				end,
-			},
-			graphql = {
-				filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-			},
-			emmet_ls = {
-				filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-			},
-			ts_ls = {
-				settings = {
-					tsserver = { plugins = { ["@typescript-eslint/eslint-plugin"] = { useESLint = false } } },
-					typescript = { validate = { enable = true } },
-					javascript = { validate = { enable = true } },
-				},
-			},
-			lua_ls = {
-				settings = {
-					Lua = {
-						diagnostics = { globals = { "vim" } },
-						completion = { callSnippet = "Replace" },
-					},
-				},
-			},
-			elixirls = {
-				cmd = { "/Users/vonkoff/.elixir-ls/release/language_server.sh", "--log-level", "debug" },
-				root_dir = require("lspconfig.util").root_pattern("mix.exs"),
-				settings = {
-					elixirLS = {
-						dialyzerEnabled = false,
-						fetchDeps = false,
-					},
-				},
-				on_attach = function(client, bufnr)
-					print("ElixirLS attached to buffer " .. bufnr)
-				end,
-			},
-		}
-
-		-- The generic handler for setting up servers
-		mason_lspconfig.setup_handlers({
-			function(server_name)
-				local server = servers[server_name] or {}
-				server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-				require("lspconfig")[server_name].setup(server)
-			end,
-			-- You can still have custom handlers here if needed, for example:
-			["lua_ls"] = function()
-				lspconfig.lua_ls.setup({
-					capabilities = capabilities,
-					settings = {
-						Lua = {
-							diagnostics = { globals = { "vim" } },
-							completion = { callSnippet = "Replace" },
-						},
-					},
+		-- LSP server configs (use vim.lsp.config)
+		vim.lsp.config("html", {})
+		vim.lsp.config("cssls", {})
+		vim.lsp.config("tailwindcss", {})
+		vim.lsp.config("svelte", {
+			on_attach = function(client, bufnr)
+				vim.api.nvim_create_autocmd("BufWritePost", {
+					pattern = { "*.js", "*.ts" },
+					callback = function(ctx)
+						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+					end,
 				})
+			end,
+		})
+		vim.lsp.config("graphql", {
+			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+		})
+		vim.lsp.config("emmet_ls", {
+			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+		})
+		vim.lsp.config("ts_ls", {
+			capabilities = capabilities,
+			settings = {
+				tsserver = { plugins = { ["@typescript-eslint/eslint-plugin"] = { useESLint = false } } },
+				typescript = { validate = { enable = true } },
+				javascript = { validate = { enable = true } },
+			},
+		})
+		vim.lsp.config("lua_ls", {
+			capabilities = capabilities,
+			settings = {
+				Lua = {
+					diagnostics = { globals = { "vim" } },
+					completion = { callSnippet = "Replace" },
+				},
+			},
+		})
+		vim.lsp.config("elixirls", {
+			cmd = { "/Users/vonkoff/.elixir-ls/release/language_server.sh", "--log-level", "debug" },
+			root_dir = require("lspconfig.util").root_pattern("mix.exs"),
+			settings = {
+				elixirLS = {
+					dialyzerEnabled = false,
+					fetchDeps = false,
+				},
+			},
+			on_attach = function(client, bufnr)
+				print("ElixirLS attached to buffer " .. bufnr)
 			end,
 		})
 	end,
